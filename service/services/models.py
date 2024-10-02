@@ -8,6 +8,9 @@ class Service(models.Model):
     name = models.CharField(max_length=50)
     full_price = models.PositiveIntegerField()
 
+    def __str__(self):
+        return f'Name: {self.name}'
+
 
 class Plan(models.Model):
     PLAN_TYPES = (
@@ -21,6 +24,9 @@ class Plan(models.Model):
         default=0,
         validators=[MaxValueValidator(100)],
     )
+
+    def __str__(self):
+        return f'Plan: {self.plan_type}'
 
 
 class Subscription(models.Model):
@@ -39,3 +45,8 @@ class Subscription(models.Model):
         related_name='subscriptions',
         on_delete=models.PROTECT,
     )
+
+    def __str__(self):
+        return f'Client: {self.client.company_name}; ' \
+               f'Service: {self.service.name}; ' \
+               f'Plan: {self.plan.plan_type}'
