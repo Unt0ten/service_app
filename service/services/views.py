@@ -8,6 +8,7 @@ from services.serializers import SubscriptionSerializer
 
 class SubscriptionView(ReadOnlyModelViewSet):
     queryset = Subscription.objects.all().prefetch_related(
+        'plan',
         Prefetch(
             'client',
             queryset=Client.objects.all().select_related('user').only(
@@ -18,7 +19,9 @@ class SubscriptionView(ReadOnlyModelViewSet):
     )
 
     # мой вариант: один запрос
-    # queryset = Subscription.objects.all().select_related('client__user').only(
+    # queryset = Subscription.objects.all().select_related(
+    #     'client__user', 'plan'
+    # ).only(
     #     'plan_id',
     #     'client__company_name',
     #     'client__user__email',
