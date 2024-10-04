@@ -16,9 +16,6 @@ class SubscriptionView(ReadOnlyModelViewSet):
                 'user__email',
             )
         )
-    ).annotate(
-        price=F('service__full_price') - F('service__full_price') *
-              F('plan__discount_percent') / 100.00
     )
 
     def list(self, request, *args, **kwargs):
